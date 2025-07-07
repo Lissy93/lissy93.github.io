@@ -1,10 +1,10 @@
 <script lang="ts">
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
-  import config from '../../config';
-  import { fetchRepoDetails, findRepoMeta } from '../../helpers/fetchRepo';
-	import type { Project } from '../../types/Project';
-	import ProjectHero from '../../components/ProjectHero.svelte';
+  import config from '../config';
+  import { fetchRepoDetails, findRepoMeta } from '../helpers/fetchRepo';
+	import type { Project } from '../types/Project';
+	import ProjectHero from '../components/ProjectHero.svelte';
 
   let gitHubPagesUrl = '';
 
