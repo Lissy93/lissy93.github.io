@@ -76,6 +76,16 @@ export default {
       color: '#d95de8',
     },
     {
+      name: 'permissionator',
+      title: 'Permissionator',
+      description: 'A Linux chmod calculator, for generating safe file permissions',
+      icon: 'https://github.com/Lissy93/permissionator/blob/main/public/logo.png?raw=true',
+      screenshot: 'https://github.com/Lissy93/permissionator/blob/main/public/screenshot.png?raw=true',
+      homepage: 'https://permissionator.as93.net/',
+      mirror: 'https://codeberg.org/alicia/permissionator',
+      color: '#05df72',
+    },
+    {
       name: 'portainer-templates',
       title: 'Portainer Template',
       icon: 'https://storage.googleapis.com/as93-screenshots/project-logos/portainer-templates.png',

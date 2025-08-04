@@ -32,8 +32,6 @@
 
   let notFound = false;
 
-  let readmeComponent: Promise<typeof import('../../components/ProjectReadme.svelte')>;
-
   onMount(() => {
     // Check if project is found, if not, set notFound to true to show 404
     if (
@@ -44,7 +42,6 @@
     }
 
     // Import readme
-    readmeComponent = import('../../components/ProjectReadme.svelte')
 
     // Fetch (or attempt to) the most-up-to-date repo details
     fetchRepoDetails(config.githubUser, $page.params.repo, fetch)
@@ -66,9 +63,7 @@
 {:else}
   <ProjectHero project={data.repoDetails} meta={data.meta} />
   {#if data.readme}
-    {#await readmeComponent then resolvedComponent}
-      <svelte:component this={resolvedComponent?.default} project={data.repoDetails} readme={data.readme} />
-    {/await}
+    <ProjectReadme project={data.repoDetails} readme={data.readme} />
   {/if}
 {/if}
 

@@ -2,9 +2,10 @@
   import { page } from '$app/stores';
   import { onMount } from 'svelte';
   import config from '../config';
-  import { fetchRepoDetails, findRepoMeta } from '../helpers/fetchRepo';
+  import { fetchReadme, fetchRepoDetails, findRepoMeta } from '../helpers/fetchRepo';
 	import type { Project } from '../types/Project';
 	import ProjectHero from '../components/ProjectHero.svelte';
+  import ProjectReadme from '../components/ProjectReadme.svelte';
 
   let gitHubPagesUrl = '';
 
@@ -35,6 +36,12 @@
           console.error('Error fetching repo details', err);
         });
     }
+    const readme = await fetchReadme(config.githubUser, repo, fetch)
+    .catch((error) => {
+      console.error(`Error fetching README: ${error.message}`);
+      return '';
+    });
+    data.readme = readme || '';
     
   });
 </script>
@@ -54,11 +61,17 @@
   <ProjectHero project={data.repoDetails} meta={data.meta} />
 {/if}
 
-<p>Oops, something's gone a bit wrong here</p>
-<h1>{$page.status}</h1>
-<p class="emoji">😢</p>
-{#if $page?.error?.message}
-  <p>{$page.error.message}</p>
+{#if data.repoDetails && data.repoDetails.id && data.readme}
+  <ProjectReadme project={data.repoDetails} readme={data.readme} />
+{/if}
+
+{#if !data || !data.repoDetails || !data.repoDetails.id}
+  <p>Oops, something's gone a bit wrong here</p>
+  <h1>{$page.status}</h1>
+  <p class="emoji">😢</p>
+  {#if $page?.error?.message}
+    <p>{$page.error.message}</p>
+  {/if}
 {/if}
 
 <style lang="scss">
@@ -80,11 +93,9 @@ p {
 }
 
 .has-github-pages {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: center;
   background-color: var(--primary);
   padding: 0.25rem;
   text-align: center;

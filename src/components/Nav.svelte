@@ -5,10 +5,10 @@
 
   if (typeof window !== 'undefined') {
     const hostname = window.location.hostname;
-    if (hostname.endsWith('aliciasykes.com')) {
+    if (hostname.includes('aliciasykes.com')) {
       siteName = 'Alicia Sykes';
     }
-    else if (hostname.endsWith('lissy93.github.io')) {
+    else if (hostname.includes('lissy93.github.io')) {
       siteName = 'Lissy93';
     }
   }
