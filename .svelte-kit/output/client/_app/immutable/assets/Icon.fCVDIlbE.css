@@ -1,0 +1,1 @@
+svg.svelte-biy4zz{fill:var(--iconColor);transition:all .25s ease-in-out}svg.svelte-biy4zz:hover,svg.hover.svelte-biy4zz{animation:svelte-biy4zz-colorFade .25s ease-in-out;fill:var(--iconHoverColor);transform:scale(1.1)}@keyframes svelte-biy4zz-colorFade{0%{fill:var(--iconColor)}to{fill:var(--iconHoverColor)}}

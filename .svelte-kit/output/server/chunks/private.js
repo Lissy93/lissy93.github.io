@@ -1,0 +1,4 @@
+const GITHUB_TOKEN = "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";
+export {
+  GITHUB_TOKEN as G
+};
