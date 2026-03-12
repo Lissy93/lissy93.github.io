@@ -11,9 +11,6 @@
 		content="open source, code, privacy, security, linux, self-hosted, projects"
 	/>
 
-	<!-- Website Settings -->
-	<meta http-equiv="Content-Language" content="en" />
-
 	<!-- Theme colors and site icons -->
 	<meta name="theme-color" content="#ec4899" />
 	<link rel="icon" href="/favicon.png" type="image/png" />

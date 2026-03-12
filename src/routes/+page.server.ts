@@ -2,6 +2,6 @@
 // it so that it gets served as a static asset in production
 export const prerender = true;
 
-import loader from '../helpers/fetchData';
+import { load as loader } from '../helpers/fetchData';
 
 export const load = loader;

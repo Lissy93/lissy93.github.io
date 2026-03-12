@@ -1,4 +1,4 @@
-import { GITHUB_TOKEN } from '$env/static/private';
+import { env } from '$env/dynamic/private';
 
 import type { Project } from '../types/Project';
 import { findEmoji, convertGhResponse } from './attributes';
@@ -27,32 +27,31 @@ export const makeProjectList = async (ghResponse: unknown): Promise<Project[]> =
 			return { ...repoData, ...computedExtras, ...project };
 		})
 		.sort((a, b) => {
-			// Sort by star count
-			return b.stars - a.stars;
+			return (b.stars ?? 0) - (a.stars ?? 0);
 		});
 };
 
-/** @type {import('./$types').PageLoad} */
-async function load({ fetch }) {
+export async function load({ fetch }: { fetch: typeof globalThis.fetch }) {
+	const githubToken = env.GITHUB_TOKEN;
 	const githubApiUrl = `https://api.github.com/users/${config.githubUser}/repos?per_page=100`;
-	const githubRequest = {
-		headers: GITHUB_TOKEN ? { Authorization: `Bearer ${GITHUB_TOKEN}` } : undefined
+	const githubRequest: RequestInit = {
+		headers: githubToken ? { Authorization: `Bearer ${githubToken}` } : undefined
 	};
 
 	let repos: Project[] = [];
 	let pageUrl: string | null = githubApiUrl;
 
 	while (pageUrl) {
-		const response = await fetch(pageUrl, githubRequest);
+		const response: Response = await fetch(pageUrl, githubRequest);
 		if (!response.ok) {
 			throw new Error(`GitHub API error: ${response.status} ${response.statusText}`);
 		}
 		const newRepos = await response.json();
 		repos = repos.concat(newRepos);
 
-		const linkHeader = response.headers.get('Link');
+		const linkHeader: string | null = response.headers.get('Link');
 		if (linkHeader) {
-			const matches = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
+			const matches: RegExpMatchArray | null = linkHeader.match(/<([^>]+)>;\s*rel="next"/);
 			pageUrl = matches ? matches[1] : null;
 		} else {
 			pageUrl = null;
@@ -61,5 +60,3 @@ async function load({ fetch }) {
 
 	return { repos: await makeProjectList(repos) };
 }
-
-export default load;

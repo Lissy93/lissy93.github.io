@@ -10,16 +10,10 @@
 
 	export let data: { repoDetails: Project; readme: string; meta: Record<string, unknown> };
 
-	function generateJsonLd(
-		project: Project,
-		meta: Record<string, unknown>
-	) {
-		const name =
-			(meta?.title as string) || project?.name?.replaceAll('-', ' ') || 'Project';
-		const description =
-			(meta?.description as string) || project?.description || '';
-		const image =
-			(meta?.icon as string) || project?.icon || 'https://as93.net/favicon.png';
+	function generateJsonLd(project: Project, meta: Record<string, unknown>) {
+		const name = (meta?.title as string) || project?.name?.replaceAll('-', ' ') || 'Project';
+		const description = (meta?.description as string) || project?.description || '';
+		const image = (meta?.icon as string) || project?.icon || 'https://as93.net/favicon.png';
 		const url = `https://as93.net/${project?.name || ''}`;
 		const repoUrl = `https://github.com/${config.githubUser}/${project?.name || ''}`;
 
@@ -44,14 +38,15 @@
 		return JSON.stringify(jsonLd).replace(/</g, '\\u003c');
 	}
 
-	$: jsonLdScript = generateJsonLd(data.repoDetails, data.meta);
+	$: jsonLdHtml =
+		'<script type="application/ld+json">' +
+		generateJsonLd(data.repoDetails, data.meta) +
+		'</' +
+		'script>';
 
 	$: projectName =
-		(data.meta?.title as string) ||
-		data.repoDetails?.name?.replaceAll('-', ' ') ||
-		'Project';
-	$: projectDescription =
-		(data.meta?.description as string) || data.repoDetails?.description || '';
+		(data.meta?.title as string) || data.repoDetails?.name?.replaceAll('-', ' ') || 'Project';
+	$: projectDescription = (data.meta?.description as string) || data.repoDetails?.description || '';
 	$: projectImage =
 		(data.meta?.icon as string) || data.repoDetails?.icon || 'https://as93.net/banner.png';
 	$: canonicalUrl = `https://as93.net/${data.repoDetails?.name || $page.params.repo}`;
@@ -71,7 +66,7 @@
 		// Import readme
 
 		// Fetch (or attempt to) the most-up-to-date repo details
-		fetchRepoDetails(config.githubUser, $page.params.repo, fetch)
+		fetchRepoDetails(config.githubUser, $page.params.repo as string, fetch)
 			.then((res) => {
 				if (res && res?.id) {
 					data.repoDetails = res as Project;
@@ -102,7 +97,7 @@
 	<meta name="twitter:image" content={projectImage} />
 
 	<!-- eslint-disable-next-line svelte/no-at-html-tags -->
-	{@html `<script type="application/ld+json">${jsonLdScript}</script>`}
+	{@html jsonLdHtml}
 </svelte:head>
 
 {#if notFound}

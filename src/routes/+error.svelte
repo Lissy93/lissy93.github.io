@@ -25,7 +25,8 @@
 				.then((res) => {
 					if (res && res?.id) {
 						data.repoDetails = res as Project;
-						data.meta = findRepoMeta(repo, config.projects) || {};
+						data.meta =
+							(findRepoMeta(repo, config.projects) as unknown as Record<string, unknown>) || {};
 						console.log(data.repoDetails);
 						if (data.repoDetails.has_pages) {
 							gitHubPagesUrl = `https://${config.githubUser}.github.io/${repo}/`;
