@@ -1,4 +1,4 @@
-name: Deploy to GitHub Pages
+name: 🚀 Deploy to GH Pages
 
 on:
   push:
@@ -28,20 +28,12 @@ jobs:
 
       - name: Build site
         env:
-          IS_STATIC: true
-          GITHUB_TOKEN: ${{ secrets.GENERATE_GITHUB_TOKEN || secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: yarn build
 
       - name: Add README to output
         run: |
           echo "This is the compiled static site for https://lissy93.github.io" > build/README.txt
-
-      # - name: Deploy to GitHub Pages
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./build
-      #     publish_branch: gh-pages
 
       - name: Deploy to gh-pages branch
         run: |
@@ -55,4 +47,3 @@ jobs:
           git add .
           git commit -m "Deploy static site"
           git push --force origin temp-deploy:gh-pages
-    
