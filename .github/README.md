@@ -9,10 +9,12 @@
 ---
 
 ## About
+
 A simple site which lists all of your GitHub projects, and creates a dedicated homepage for each of your repos.<br>
 Useful as an auto-generated fallback for all of your apps which don't yet have a dedicated website/landing page.
 
 E.g.
+
 - `[your-username].github.io` - List of all your projects
 - `[your-username].github.io/[repo]` - Homepage for each repo
 
@@ -28,6 +30,7 @@ E.g.
 ---
 
 ## Deployment
+
 Fork the repo, and rename to your username (e.g. `octocat.github.io`).<br>
 GitHub Actions will automatically build and publish the site to your `https://<your-username>.github.io` page.<br>
 
@@ -36,6 +39,7 @@ For manual deployment, follow the [Development](#development) instructions above
 ---
 
 ## Configuring
+
 All user-related settings goes in the [`config.ts`](https://github.com/Lissy93/as93/blob/main/src/config.ts) file.
 Add your username there, and optionally add any other details to augment repo listings with custom meta.
 Other than that, the only other thing you need is a GitHub API key in `GITHUB_TOKEN` env var (to avoid being limited while fetching repos)
@@ -66,9 +70,11 @@ Not a coder? You can still help, by raising bugs you find, updating docs, or con
 ## Credits
 
 ##### Inspiration
+
 The layout was inspired by Sindresorhus's homepage
 
 ##### Tech Credits
+
 The app is built with Svelte + SvelteKit, and uses TypeScript and SCSS
 
 ##### Contributors
@@ -93,16 +99,16 @@ Thank you so so much to everyone who [sponsors me on GitHub](https://github.com/
 
 ```
 The MIT License (MIT)
-Copyright (c) Alicia Sykes <alicia@omg.com> 
+Copyright (c) Alicia Sykes <alicia@omg.com>
 
-Permission is hereby granted, free of charge, to any person obtaining a copy 
-of this software and associated documentation files (the "Software"), to deal 
-in the Software without restriction, including without limitation the rights 
-to use, copy, modify, merge, publish, distribute, sub-license, and/or sell 
-copies of the Software, and to permit persons to whom the Software is furnished 
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sub-license, and/or sell
+copies of the Software, and to permit persons to whom the Software is furnished
 to do so, subject to the following conditions:
 
-The above copyright notice and this permission notice shall be included install 
+The above copyright notice and this permission notice shall be included install
 copies or substantial portions of the Software.
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED,
@@ -115,7 +121,6 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 </details>
 
-
 <!-- License + Copyright -->
 <p  align="center">
   <i>© <a href="https://aliciasykes.com">Alicia Sykes</a> 2024</i><br>
@@ -125,7 +130,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 </p>
 
 <!-- Dinosaurs are Awesome -->
-<!-- 
+<!--
                         . - ~ ~ ~ - .
       ..     _      .-~               ~-.
      //|     \ `..~                      `.

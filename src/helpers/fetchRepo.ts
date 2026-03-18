@@ -1,4 +1,3 @@
-// src/helpers/github.ts
 import type { Project } from '../types/Project';
 import { convertGhResponse } from './attributes';
 
@@ -6,74 +5,48 @@ type FetchFn = typeof fetch;
 
 /**
  * Fetch GitHub repository details and convert the response.
- * @param owner GitHub username or organization
- * @param repo Repository name
- * @param fetchFn fetch implementation (native fetch or SvelteKit fetch)
- * @param token Optional GitHub token for authentication
+ * Throws on failure — callers should catch if graceful degradation is needed.
  */
 export async function fetchRepoDetails(
-  owner: string,
-  repo: string,
-  fetchFn: FetchFn,
-  token?: string
+	owner: string,
+	repo: string,
+	fetchFn: FetchFn,
+	token?: string
 ): Promise<Partial<Project>> {
-  const url = `https://api.github.com/repos/${owner}/${repo}`;
-  const headers: Record<string, string> = token ? { Authorization: `token ${token}` } : {};
-
-  try {
-    const response = await fetchFn(url, { headers });
-    if (!response.ok) {
-      console.error(`Failed to fetch repo details: ${response.statusText}`);
-      return {};
-    }
-    const json = await response.json();
-    return convertGhResponse(json);
-  } catch (error: any) {
-    console.error(`Error fetching repo details: ${error.message}`);
-    return {};
-  }
+	const url = `https://api.github.com/repos/${owner}/${repo}`;
+	const headers: Record<string, string> = token ? { Authorization: `token ${token}` } : {};
+	const response = await fetchFn(url, { headers });
+	if (!response.ok) {
+		throw new Error(`Failed to fetch repo details: ${response.status} ${response.statusText}`);
+	}
+	return convertGhResponse(await response.json());
 }
 
 /**
  * Fetch the raw README for a GitHub repository.
- * @param owner GitHub username or organization
- * @param repo Repository name
- * @param fetchFn fetch implementation
- * @param token Optional GitHub token
+ * Throws on failure — callers should catch if graceful degradation is needed.
  */
 export async function fetchReadme(
-  owner: string,
-  repo: string,
-  fetchFn: FetchFn,
-  token?: string
+	owner: string,
+	repo: string,
+	fetchFn: FetchFn,
+	token?: string
 ): Promise<string> {
-  const url = `https://api.github.com/repos/${owner}/${repo}/readme`;
-  const headers = {
-    Accept: 'application/vnd.github.v3.raw',
-    ...(token ? { Authorization: `token ${token}` } : {})
-  };
-
-  try {
-    const response = await fetchFn(url, { headers });
-    if (!response.ok) {
-      throw new Error(`Error fetching README: ${response.statusText}`);
-    }
-    return await response.text();
-  } catch (error: any) {
-    console.error(`Error fetching README: ${error.message}`);
-    return '';
-  }
+	const url = `https://api.github.com/repos/${owner}/${repo}/readme`;
+	const headers: Record<string, string> = {
+		Accept: 'application/vnd.github.v3.raw',
+		...(token ? { Authorization: `token ${token}` } : {})
+	};
+	const response = await fetchFn(url, { headers });
+	if (!response.ok) {
+		throw new Error(`Failed to fetch README: ${response.status} ${response.statusText}`);
+	}
+	return await response.text();
 }
 
 /**
  * Find project meta data by repository name.
- * @param repoName Repository name
- * @param projects Array of Project entries from config
  */
-export function findRepoMeta(
-  repoName: string,
-  projects: Project[]
-): Project | undefined {
-  return projects.find((p) => p.name === repoName);
+export function findRepoMeta(repoName: string, projects: Project[]): Project | undefined {
+	return projects.find((p) => p.name === repoName);
 }
-

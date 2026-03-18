@@ -2,7 +2,6 @@
 	import type { Project } from '../types/Project';
 	import ProjectReadme from './ProjectReadme.svelte';
 
-
 	export let showModal: boolean = false;
 	export let project: Project;
 	export let readme: string = '';
@@ -10,19 +9,18 @@
 	let dialog: HTMLDialogElement;
 
 	$: if (dialog && showModal) dialog.showModal();
-
 </script>
 
-<!-- svelte-ignore a11y-click-events-have-key-events a11y-no-noninteractive-element-interactions -->
 <dialog
 	bind:this={dialog}
 	on:close={() => (showModal = false)}
 	on:click|self={() => dialog.close()}
 >
-	<!-- svelte-ignore a11y-no-static-element-interactions -->
+	<!-- svelte-ignore a11y_no_static_element_interactions a11y_click_events_have_key_events -->
 	<div on:click|stopPropagation>
 		<slot />
-		<ProjectReadme project={project} readme={readme} />
+		<ProjectReadme {project} {readme} />
+		<!-- svelte-ignore a11y_autofocus -->
 		<button autofocus on:click={() => dialog.close()}>Close</button>
 	</div>
 </dialog>
@@ -41,7 +39,7 @@
 	dialog::backdrop {
 		background: rgba(0, 0, 0, 0.5);
 	}
-	
+
 	dialog[open] {
 		animation: zoom 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 	}
@@ -69,10 +67,10 @@
 		top: 0.25rem;
 		right: 0.25rem;
 		background: var(--background-lighter);
-    border: none;
-    color: var(--foreground);
-    border-radius: 5px;
-    cursor: pointer;
+		border: none;
+		color: var(--foreground);
+		border-radius: 5px;
+		cursor: pointer;
 		font-size: 0.75rem;
 		&:hover {
 			color: var(--primary);

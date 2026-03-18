@@ -1,0 +1,16 @@
+[build]
+  publish = "build"
+  command = "yarn build"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
+
+[[redirects]]
+  from = "/*"
+  to = "/404.html"
+  status = 404
